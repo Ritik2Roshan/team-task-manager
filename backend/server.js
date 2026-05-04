@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -28,6 +30,24 @@ app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+
+const clientDistCandidates = [
+  path.resolve(process.cwd(), '..', 'frontend', 'dist'),
+  path.resolve(process.cwd(), 'frontend', 'dist'),
+  path.resolve(process.cwd(), 'dist'),
+];
+const clientDist = clientDistCandidates.find((candidate) => fs.existsSync(candidate));
+
+if (clientDist) {
+  app.use(express.static(clientDist));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path === '/health') {
+      return next();
+    }
+    return res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });

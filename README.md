@@ -4,10 +4,10 @@ Full-stack team task manager with projects, tasks, JWT authentication, and role-
 
 **Live URLs (after you deploy):**
 
-- Frontend: `https://YOUR_FRONTEND_SERVICE.up.railway.app` (or your static host)
-- Backend API: `https://YOUR_BACKEND_SERVICE.up.railway.app`
+- App: `https://YOUR_RAILWAY_APP.up.railway.app`
+- Backend API: `https://YOUR_RAILWAY_APP.up.railway.app`
 
-Replace placeholders with the URLs from your Railway (or other) dashboard, then set the frontend `VITE_API_URL` to `https://YOUR_BACKEND.../api` before building the static site.
+The Railway deployment in this repo serves the built frontend from the Express server, so the browser and API share the same origin.
 
 ---
 
@@ -66,7 +66,7 @@ JWT_SECRET=use_a_long_random_string_in_production
 PORT=5000
 ```
 
-On Railway, point these at the MySQL plugin (or `MYSQL_URL` split into the above). **Do not commit real secrets.**
+On Railway, the backend also accepts the native MySQL variables automatically: `MYSQL_URL`, `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`, and `MYSQLDATABASE`. **Do not commit real secrets.**
 
 ---
 
@@ -125,23 +125,19 @@ Use **raw JSON** bodies (not form-data) to avoid parse errors.
 
 ## 5. Deploying to Railway
 
-### Backend (Node)
+### One-service deployment
 
-1. New **Empty** project → **Deploy from GitHub** (or CLI) with root `backend/`.
-2. Set start command: `npm start` (or `node server.js`).
-3. Add **MySQL** plugin; create tables using `database/schema.sql` (Railway provides connection vars — map them to `DB_*` in the service variables).
-4. Set `JWT_SECRET`, `PORT` (Railway sets `PORT` automatically — use `process.env.PORT` which the app already does).
+1. Deploy the repository root to Railway.
+2. Railway will run the root `build` script, which installs backend/frontend dependencies and builds the frontend.
+3. The root `start` script launches the backend, and Express serves the built frontend from `frontend/dist`.
+4. Add a MySQL service in the same Railway project and provide its variables to the app service (the backend reads `MYSQL_URL` or `MYSQLHOST`/`MYSQLPORT`/`MYSQLUSER`/`MYSQLPASSWORD`/`MYSQLDATABASE`).
+5. Set `JWT_SECRET` and let Railway inject `PORT`.
 
-### Frontend (static)
-
-1. New **Static** service from `frontend/` (or build in CI and upload `dist`).
-2. Build command: `npm install && npm run build`.
-3. Publish directory: `dist`.
-4. Environment variable at build time: `VITE_API_URL=https://<your-backend-host>/api`.
+If you prefer the older split-service approach, you can still deploy `frontend/` and `backend/` separately, but it is no longer required.
 
 ### CORS
 
-The API uses `cors({ origin: true })` so your Railway frontend origin is accepted. Tighten `origin` to your exact frontend URL in production if you prefer.
+The API uses `cors({ origin: true })`, but same-origin deployment means CORS is usually a non-issue.
 
 ---
 
