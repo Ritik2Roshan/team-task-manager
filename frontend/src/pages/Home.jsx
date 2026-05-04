@@ -40,38 +40,8 @@ export default function Home() {
 
       <main className="mx-auto max-w-3xl px-4 pb-24 pt-12 text-center md:pt-20">
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-          Work that actually moves
+          Stay focused, stay moving.
         </h1>
-        <p className="mt-6 text-lg text-slate-300">
-          Plan projects, assign tasks, and keep delivery moving in one place.
-        </p>
-
-        <ul className="mx-auto mt-12 max-w-lg space-y-3 text-left text-slate-300">
-          <li className="flex gap-3">
-            <span className="text-emerald-400" aria-hidden>
-              ✓
-            </span>
-            <span>Secure signup &amp; login (JWT + password hashing)</span>
-          </li>
-          <li className="flex gap-3">
-            <span className="text-emerald-400" aria-hidden>
-              ✓
-            </span>
-            <span>Projects, team members, tasks with assignee, status, priority, and due dates</span>
-          </li>
-          <li className="flex gap-3">
-            <span className="text-emerald-400" aria-hidden>
-              ✓
-            </span>
-            <span>Role-based access: global Admin/Member, plus project-level roles</span>
-          </li>
-          <li className="flex gap-3">
-            <span className="text-emerald-400" aria-hidden>
-              ✓
-            </span>
-            <span>REST API + MySQL, validations, and deployment-ready structure (e.g. Railway)</span>
-          </li>
-        </ul>
 
         <div className="mt-12 flex flex-wrap justify-center gap-4">
           <Link
