@@ -40,11 +40,10 @@ export default function Home() {
 
       <main className="mx-auto max-w-3xl px-4 pb-24 pt-12 text-center md:pt-20">
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-          Team task &amp; project management
+          Work that actually moves
         </h1>
         <p className="mt-6 text-lg text-slate-300">
-          Create projects, invite teammates, assign tasks, and track progress with clear roles — plus a
-          dashboard, overdue views, and project file uploads (including folders).
+          Plan projects, assign tasks, and keep delivery moving in one place.
         </p>
 
         <ul className="mx-auto mt-12 max-w-lg space-y-3 text-left text-slate-300">
